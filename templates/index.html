@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>服選びbot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    />
+    <style>
+      * {
+        box-sizing: content-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        margin: 0;
+      }
+      header {
+        flex: 0 0 auto;
+      }
+      header h1 {
+        margin: 0;
+      }
+      #chatbox {
+        flex: 1 1 auto;
+        overflow: auto;
+        padding: 20px;
+      }
+      .userInputSection {
+        background: #dfe0e2;
+      }
+      #userInputSection {
+        flex: 0 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+      }
+      .btns {
+        display: flex;
+        overflow: scroll;
+        padding: 10px;
+        padding-bottom: 0;
+      }
+      .btns button {
+        min-width: 100px;
+        margin-right: 10px;
+        padding: 8px;
+        border-radius: 5px;
+        border: 2.5px solid #e0e1e4;
+        box-shadow: 0px 0px 20px -20px;
+        cursor: pointer;
+        background-color: white;
+        transition: all 0.2s ease-in-out 0ms;
+        user-select: none;
+        font-family: "Poppins", sans-serif;
+      }
+      .messageContainer {
+        display: flex;
+        flex-direction: row-reverse;
+      }
+
+      .botText {
+        text-align: start;
+        background-color: #e6e4d8;
+        border-radius: 5px;
+        margin-left: 10px; /* メッセージ間の間隔を調整 */
+      }
+
+      .userText {
+        text-align: end;
+        background-color: #c1ddc0;
+        border-radius: 5px;
+      }
+
+      .btns button:hover {
+        background-color: #f2f2f2;
+        box-shadow: 0px 0px 20px -18px;
+      }
+
+      .btns button:active {
+        transform: scale(0.95);
+      }
+      #userInput {
+        flex: 1 0 auto;
+        margin-right: 10px;
+        height: 7.2em;
+        border: none;
+        border-radius: 10px;
+      }
+      #buttonInput {
+        cursor: pointer;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+      function forProfile() {
+        let botHtml =
+          '<div class="messageContainer"><p class="botText"><span>あなたがどのような人なのか教えて下さい</span></p></div>';
+        $("#chatbox").append(botHtml);
+        $("#userInput").val("@profile\n年齢:\n性別:\n職業:\n印象:");
+      }
+      function forTime() {
+        let botHtml =
+          '<div class="messageContainer"><p class="botText"><span>出かける時間帯を教えて下さい</span></p>/div>';
+        $("#chatbox").append(botHtml);
+        $("#userInput").val("@time\n時間帯:");
+      }
+      function forWhy() {
+        let botHtml =
+          '<div class="messageContainer"><p class="botText"><span>今日はどのようなご用事ですか</span></p>/div>';
+        $("#chatbox").append(botHtml);
+        $("#userInput").val("@why\n用事:");
+      }
+      function postChat() {
+        let userText = $("#userInput").val();
+        $.post("/chat", {
+          message: userText,
+        }).done(function (response) {
+          let botHtml =
+            '<div class="messageContainer"><p class="userText"><span>' +
+            response.message +
+            "</span></p></div>";
+          $("#chatbox").append(botHtml);
+          document.getElementById("userInput").value = "";
+        });
+      }
+      $(document).on("keypress", function (e) {
+        if (e.which == 13) {
+          postChat();
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1>服選びbot</h1>
+    </header>
+    <div id="chatbox"></div>
+    <div class="userInputSection">
+      <div class="btns">
+        <button onclick="forProfile()">自分の雰囲気を<br />指定</button>
+        <button onclick="forWhy()">今日の用事を<br />指定</button>
+        <button onclick="forTime()">時間帯を<br />指定</button>
+      </div>
+      <div id="userInputSection">
+        <textarea id="userInput" placeholder="メッセージを入力"></textarea>
+        <i
+          id="buttonInput"
+          class="fab fa-telegram-plane"
+          onClick="postChat()"
+        ></i>
+      </div>
+    </div>
+  </body>
+</html>
