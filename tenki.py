@@ -30,7 +30,7 @@ def tenki():
     return weather_dict
 
 def withOpenAI(user_message):
-    openai.api_key = "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"
+    openai.api_key = ""
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[

@@ -13,8 +13,8 @@ from tenki import withOpenAI
 
 app = Flask(__name__)
 line_bot_api = LineBotApi(
-    'En1Q2i4+2InzJQKO1wJ+YIxIKoFOKC8VqcLvSkJjckuSmrj0dHrzh79c52OQCDKGJTXbDlgr0S7giPyej6fzCL2yFl+S1Eo8V5R//kM1fItLX4rGXUbvtusMlMNkGWy61mi9msxfkOT3JC020tH7gwdB04t89/1O/w1cDnyilFU=')
-handler = WebhookHandler('25d4b2851f882ea9619257e0e8dd7abf')
+    '')
+handler = WebhookHandler('')
 
 
 @app.route("/callback", methods=['POST'])
